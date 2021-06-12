@@ -1,5 +1,7 @@
 import axios from 'axios';
+import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Append CSRF token on every request
 axios.defaults.xsrfCookieName = 'csrftoken';
@@ -53,6 +55,7 @@ const Register = () => {
         </div>
         <button type='submit'>Register</button>
       </form>
+      <Link to='/login'>Login</Link>
     </div>
   );
 };
