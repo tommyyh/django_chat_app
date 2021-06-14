@@ -22,6 +22,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # My apps
     'user',
+    'chat_rooms',
 
     # Django apps
     'django.contrib.admin',

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { v4 as uuid } from 'uuid';
 
 const Room = () => {
   const [roomInfo, setRoomInfo] = useState({
@@ -20,6 +21,7 @@ const Room = () => {
         roomName: res.data.room_name,
         username: res.data.username,
       });
+      setMsg(res.data.messages);
     };
 
     fetchRoomInfo();
@@ -49,6 +51,8 @@ const Room = () => {
         room_name: roomName,
       })
     );
+
+    setNewMsg('');
   };
 
   return (
@@ -60,8 +64,8 @@ const Room = () => {
       <div style={{ marginTop: '70px', marginBottom: '70px' }}>
         <h2>Messages</h2>
         {msg.map((message) => (
-          <div key={message.message}>
-            <p>{message.message}</p>
+          <div key={uuid()}>
+            <p>{message.content}</p>
             <h6>{message.username}</h6>
           </div>
         ))}
