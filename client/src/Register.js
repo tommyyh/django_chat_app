@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // Append CSRF token on every request
 axios.defaults.xsrfCookieName = 'csrftoken';
@@ -13,9 +14,19 @@ const Register = () => {
     email: '',
     password: '',
   });
+  const [errorMsg, setErrorMsg] = useState('');
+  const { push } = useHistory();
 
-  const createNewUser = async () => {
+  const createNewUser = async (e) => {
+    e.preventDefault();
+
     const res = await axios.post('/user/register/', newUser);
+
+    if (res.data.status === 201) {
+      push('/login');
+    } else {
+      setErrorMsg('There was an error creating your account');
+    }
   };
 
   const handleOnChange = (e) => {
@@ -24,15 +35,15 @@ const Register = () => {
 
   return (
     <div>
+      <p>{errorMsg}</p>
       <h1>Register</h1>
-      <form onSubmit={createNewUser}>
+      <form onSubmit={(e) => createNewUser(e)}>
         <div>
           <input
             type='text'
             name='name'
             placeholder='Name'
             onChange={(e) => handleOnChange(e)}
-            required
           />
         </div>
         <div>
@@ -41,7 +52,6 @@ const Register = () => {
             name='email'
             placeholder='Email'
             onChange={(e) => handleOnChange(e)}
-            required
           />
         </div>
         <div>
@@ -50,7 +60,6 @@ const Register = () => {
             name='password'
             placeholder='Password'
             onChange={(e) => handleOnChange(e)}
-            required
           />
         </div>
         <button type='submit'>Register</button>

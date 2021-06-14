@@ -20,7 +20,9 @@ def register(request):
   if serializer.is_valid():
     serializer.save()
 
-  return Response({ 'status': 200 })
+    return Response({ 'status': 201 })
+  else:
+    return Response({ 'status': 403 })
 
 @api_view(['POST'])
 def login(request):
@@ -46,8 +48,7 @@ def login(request):
     
     # Save the user to the session
     request.session['user'] = payload
-
+    
     return response
-
   else:
-    return Response({ 'status': 401, 'msg': 'Incorrect password' })
+    return Response({ 'status': 403, 'msg': 'Incorrect password' })

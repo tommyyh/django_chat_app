@@ -10,6 +10,7 @@ const Login = () => {
     password: '',
   });
   const { push } = useHistory();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -23,6 +24,12 @@ const Login = () => {
       });
 
       push('/');
+    } else {
+      setErrorMsg(res.data.msg);
+      setCredentials({
+        ...credentials,
+        password: '',
+      });
     }
   };
 
@@ -32,8 +39,9 @@ const Login = () => {
 
   return (
     <div>
+      <p>{errorMsg}</p>
       <h1>Login</h1>
-      <form onSubmit={(e) => loginUser(e)}>
+      <form>
         <div>
           <input
             type='email'
@@ -54,7 +62,9 @@ const Login = () => {
             required
           />
         </div>
-        <button type='submit'>Login</button>
+        <button type='submit' onClick={(e) => loginUser(e)}>
+          Login
+        </button>
       </form>
       <Link to='/register'>Register</Link>
     </div>
